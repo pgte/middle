@@ -6,8 +6,12 @@ function MiddleStream(from, to) {
     var self = this;
     Stream.call(this);
 
+    this.writable = true;
+    this.readable = true;
+
     this.__from = from;
     this.__to = to;
+    this.__piped = true;
 
     ['drain', 'error', 'close', 'pipe'].forEach(function(eventType) {
         self.__from.on(eventType, function() {
@@ -25,9 +29,7 @@ function MiddleStream(from, to) {
         });
     });
 
-    process.nextTick(function() {
-      from.pipe(to);
-    })
+    from.pipe(to);
 
 }
 
@@ -59,6 +61,12 @@ MiddleStream.prototype.resume = function resume() {
  * otherwise.
  */
 MiddleStream.prototype.write = function write(chunk, encoding) {
+  if (! this.__piped) {
+    this.__piped = true;
+    this.__from.pipe(this.__to);
+  }
+
+
   return this.__from.write(chunk, encoding);
 }
 
