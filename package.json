@@ -1,0 +1,22 @@
+{
+  "name": "middle",
+  "description": "Combining two streams",
+  "version": "0.0.1",
+  "author": {
+    "name": "Pedro Teixeira"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/pgte/middle.git" 
+  },
+  "tags": ["middleware", "streams"],
+  "main": "./middle.js",
+  "engines": { "node": ">= 0.4.0" },
+  "devDependencies": {
+    "tap": "*",
+    "bufferedstream": "*"
+  },
+  "scripts": {
+    "test": "node node_modules/tap/bin/tap.js test.js"
+  }
+}
